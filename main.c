@@ -2,7 +2,6 @@
 
 void sig_handler(int sig);
 int execute(char **args, char **front);
-char *get_location(char *command);
 int cant_open(char *file_path);
 int proc_file_commands(char *file_path, int *exe_ret);
 
@@ -78,58 +77,12 @@ int execute(char **args, char **front)
 }
 
 /**
- * get_location - Locates a command in the PATH.
- * @command: The command to locate.
- *
- * Return: If an error occurs or the command cannot be located - NULL.
- *         Otherwise - the full pathname of the command.
- */
-char *get_location(char *command)
-{
-	char **path, *temp;
-	list_t *dirs, *head;
-	struct stat st;
-
-	path = _getenv("PATH");
-	if (!path || !(*path))
-		return (NULL);
-
-	dirs = get_path_dir(*path + 5);
-	head = dirs;
-
-	while (dirs)
-	{
-		temp = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
-		if (!temp)
-			return (NULL);
-
-		_strcpy(temp, dirs->dir);
-		_strcat(temp, "/");
-		_strcat(temp, command);
-
-		if (stat(temp, &st) == 0)
-		{
-			free_list(head);
-			return (temp);
-		}
-
-		dirs = dirs->next;
-		free(temp);
-	}
-
-	free_list(head);
-
-	return (NULL);
-}
-
-/**
  * cant_open - If the file doesn't exist or lacks proper permissions, print
  * a cant open error.
  * @file_path: Path to the supposed file.
  *
  * Return: 127.
  */
-
 int cant_open(char *file_path)
 {
 	char *error, *hist_str;
