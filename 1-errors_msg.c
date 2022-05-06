@@ -14,7 +14,7 @@ char *error_126(char **args)
 	char *error, *hist_str;
 	int len;
 
-	hist_str = _itoa(hist);
+	hist_str = _itoa(history);
 	if (!hist_str)
 		return (NULL);
 
@@ -48,7 +48,7 @@ char *error_127(char **args)
 	char *error, *hist_str;
 	int len;
 
-	hist_str = _itoa(hist);
+	hist_str = _itoa(history);
 	if (!hist_str)
 		return (NULL);
 

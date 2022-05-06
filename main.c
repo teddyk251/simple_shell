@@ -57,7 +57,7 @@ int execute(char **args, char **front)
 		}
 		if (child_pid == 0)
 		{
-			execve(command, args, environ);
+			execve(command, args, environment);
 			if (errno == EACCES)
 				ret = (create_error(args, 126));
 			free_env();
@@ -85,29 +85,29 @@ int execute(char **args, char **front)
  */
 int cant_open(char *file_path)
 {
-	char *error, *hist_str;
+	char *error, *history_str;
 	int len;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	history_str = _itoa(history);
+	if (!history_str)
 		return (127);
 
-	len = _strlen(name) + _strlen(hist_str) + _strlen(file_path) + 16;
+	len = _strlen(name) + _strlen(history_str) + _strlen(file_path) + 16;
 	error = malloc(sizeof(char) * (len + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(history_str);
 		return (127);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, history_str);
 	_strcat(error, ": Can't open ");
 	_strcat(error, file_path);
 	_strcat(error, "\n");
 
-	free(hist_str);
+	free(history_str);
 	write(STDERR_FILENO, error, len);
 	free(error);
 	return (127);
@@ -132,7 +132,7 @@ int proc_file_commands(char *file_path, int *exe_ret)
 	char buffer[120];
 	int ret;
 
-	hist = 0;
+	history = 0;
 	file = open(file_path, O_RDONLY);
 	if (file == -1)
 	{
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 	}
 	if (!isatty(STDIN_FILENO))
 	{
-		while (ret != END_OF_FILE && != EXIT)
+		while (ret != END_OF_FILE && ret != EXIT)
 			ret = handle_args(exe_ret);
 		free_env();
 		free_alias_list(aliases);
