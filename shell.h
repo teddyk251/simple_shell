@@ -1,5 +1,5 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL_H
+#define SHELL_H
 
 /*
  * File: shell.h
@@ -21,7 +21,7 @@
 #define EXIT -3
 
 /* Global environemnt */
-extern char **environment;
+extern char **environ;
 /* Global program name */
 char *name;
 /* Global history counter */

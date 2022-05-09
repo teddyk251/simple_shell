@@ -57,7 +57,7 @@ int execute(char **args, char **front)
 		}
 		if (child_pid == 0)
 		{
-			execve(command, args, environment);
+			execve(command, args, environ);
 			if (errno == EACCES)
 				ret = (create_error(args, 126));
 			free_env();
@@ -215,12 +215,12 @@ int main(int argc, char *argv[])
 	signal(SIGINT, sig_handler);
 
 	*exe_ret = 0;
-	environment = _copyenv();
-	if (!environment)
+	environ = _copyenv();
+	if (!environ)
 		exit(-100);
 	if (argc != 1)
 	{
-		ret = proc_file_commmands(argv[1], exe_ret);
+		ret = proc_file_commands(argv[1], exe_ret);
 		free_env();
 		free_alias_list(aliases);
 
